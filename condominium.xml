@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!-- This file is part of Tryton.  The COPYRIGHT file at the top level of
+this repository contains the full copyright notices and license terms. -->
+<tryton>
+    <data>
+
+<!-- Form View -->
+        <record model="ir.ui.view" id="check_units_addressing_result">
+            <field name="model">condo.check_units_addressing.result</field>
+            <field name="type">form</field>
+            <field name="name">check_units_addressing_result</field>
+        </record>
+
+<!-- Inherit Form View -->
+        <record model="ir.ui.view" id="condoparty_view_form">
+            <field name="model">condo.party</field>
+            <field name="inherit" ref="condominium.condoparty_view_form"/>
+            <field name="name">condoparty_form</field>
+        </record>
+
+<!-- Inherit List View -->
+        <record model="ir.ui.view" id="condoparty_view_tree">
+            <field name="model">condo.party</field>
+            <field name="inherit" ref="condominium.condoparty_view_tree"/>
+            <field name="name">condoparty_tree</field>
+        </record>
+
+        <record model="ir.ui.view" id="condoparty_view_tree_sequence">
+            <field name="model">condo.party</field>
+            <field name="inherit" ref="condominium.condoparty_view_tree_sequence"/>
+            <field name="name">condoparty_tree_sequence</field>
+        </record>
+
+<!-- Actions -->
+        <record model="ir.action.wizard" id="wizard_check_units_addressing">
+            <field name="name">Check Addressing List</field>
+            <field name="wiz_name">condo.check_units_addressing</field>
+            <field name="model">company.company</field>
+        </record>
+
+        <record model="ir.action.keyword" id="check_units_addressing_keyword">
+            <field name="keyword">form_action</field>
+            <field name="model">company.company,-1</field>
+            <field name="action" ref="wizard_check_units_addressing"/>
+        </record>
+
+<!-- Menu Item -->
+
+    </data>
+</tryton>

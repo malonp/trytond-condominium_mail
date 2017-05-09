@@ -1,0 +1,65 @@
+# 
+msgid ""
+msgstr "Content-Type: text/plain; charset=utf-8\n"
+
+msgctxt "field:condo.party,mail:"
+msgid "Mail"
+msgstr "Correspondencia"
+
+msgctxt "field:condo.party,address:"
+msgid "Address"
+msgstr "Dirección"
+
+msgctxt "help:condo.party,mail:"
+msgid "Check if this party should receive mail"
+msgstr "Seleccionar si este tercero debe recibir correspondencia"
+
+msgctxt "help:condo.party,address:"
+msgid "Mail address for this party"
+msgstr "Dirección de envio de la correspondencia para este tercero"
+
+
+msgctxt "field:condo.check_units_addressing.result,units_orphan:"
+msgid "Units without mail"
+msgstr "Inmuebles sin dirección de correo"
+
+msgctxt "field:condo.check_units_addressing.result,units_unsure:"
+msgid "Units to check"
+msgstr "Inmuebles a comprobar"
+
+
+msgctxt "view:condo.check_units_addressing.result:"
+msgid "Check Units/Apartments mail address"
+msgstr "Comprobar dirección de correo de inmuebles"
+
+
+msgctxt "model:ir.action,name:wizard_check_units_addressing"
+msgid "Check Addressing List"
+msgstr "Comprobar direcciones correo"
+
+
+msgctxt "wizard_button:party.condo.check_units_addressing,result,end:"
+msgid "OK"
+msgstr "Aceptar"
+
+
+msgctxt "model:ir.action,name:condoparty_addressing_small_envelopes"
+msgid "Addressing small envelopes"
+msgstr "Correspondencia sobres pequeños"
+
+msgctxt "model:ir.action,name:condoparty_addressing_big_envelopes"
+msgid "Addressing big envelopes"
+msgstr "Correspondencia sobres grandes"
+
+
+msgctxt "error:party.address:"
+msgid "This address will be deactivate as mail address in %d unit(s)/apartment(s)!"
+msgstr "Esta dirección será desactivada como destino de correspondencia en %d inmueble(s)!"
+
+msgctxt "error:condo.party:"
+msgid "Set address or uncheck mail"
+msgstr "Introduzca dirección de correspondencia o desactive la casilla"
+
+msgctxt "error:condo.party:"
+msgid "Set an active address or uncheck mail"
+msgstr "Introduzca una dirección de correspondencia activa o desactive la casilla"
