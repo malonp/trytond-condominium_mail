@@ -22,6 +22,7 @@
 from trytond.model import ModelView, fields
 from trytond.pool import PoolMeta, Pool
 from trytond.pyson import Eval, Not, Bool
+from trytond.transaction import Transaction
 from trytond.wizard import Wizard, StateTransition, StateView, Button
 
 
@@ -79,7 +80,7 @@ class CheckUnitMailAddress(Wizard):
 
     check = StateTransition()
     result = StateView('condo.check_units_addressing.result',
-        'condominium.check_units_addressing_result', [
+        'condominium_mail.check_units_addressing_result', [
             Button('OK', 'end', 'tryton-ok', True),
             ])
 
