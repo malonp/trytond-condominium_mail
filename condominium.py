@@ -29,8 +29,7 @@ from trytond.wizard import Wizard, StateTransition, StateView, Button
 __all__ = ['CondoParty',
     'CheckAddressingList', 'CheckUnitMailAddress']
 
-class CondoParty:
-    __metaclass__ = PoolMeta
+class CondoParty(metaclass=PoolMeta):
     __name__ = 'condo.party'
     mail = fields.Boolean('Mail', help="Check if this party should receive mail",
         depends=['active'], states={

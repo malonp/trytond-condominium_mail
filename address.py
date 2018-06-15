@@ -29,13 +29,25 @@ from trytond.transaction import Transaction
 __all__ = ['Address']
 
 
-class Address:
-    __metaclass__ = PoolMeta
+class Address(metaclass=PoolMeta):
     __name__ = 'party.address'
 
     def get_rec_name(self, name):
-        return "; ".join(x for x in [self.name,
-                self.street, self.zip, self.city] if x)
+        if self.street:
+            street = self.street.splitlines()[0]
+        else:
+            street = None
+        if self.country:
+            country = self.country.code
+        else:
+            country = None
+        return ', '.join(
+            [_f for _f in [
+                    self.name,
+                    street,
+                    self.zip,
+                    self.city,
+                    country] if _f])
 
     @classmethod
     def search_rec_name(cls, name, clause):
@@ -44,10 +56,11 @@ class Address:
         else:
             bool_op = 'OR'
         return [bool_op,
+            ('name',) + tuple(clause[1:]),
             ('street',) + tuple(clause[1:]),
             ('zip',) + tuple(clause[1:]),
             ('city',) + tuple(clause[1:]),
-            ('name',) + tuple(clause[1:]),
+            ('country',) + tuple(clause[1:]),
             ]
 
     @classmethod
@@ -60,7 +73,7 @@ class Address:
         #Deactivate address as mail address of unit's party
         if (self.id > 0) and not self.active:
             condoparties = Pool().get('condo.party').__table__()
-            cursor = Transaction().cursor
+            cursor = Transaction().connection.cursor()
 
             cursor.execute(*condoparties.select(condoparties.id,
                                         where=(condoparties.address == self.id) &

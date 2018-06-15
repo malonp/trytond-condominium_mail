@@ -27,8 +27,7 @@ from trytond.pool import PoolMeta
 __all__ = ['Company']
 
 
-class Company:
-    __metaclass__ = PoolMeta
+class Company(metaclass=PoolMeta):
     __name__ = 'company.company'
     mailto = fields.Function(fields.Char('Mailto'),
         getter='get_mailto')
