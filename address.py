@@ -76,8 +76,7 @@ class Address(metaclass=PoolMeta):
             cursor = Transaction().connection.cursor()
 
             cursor.execute(*condoparties.select(condoparties.id,
-                                        where=(condoparties.address == self.id) &
-                                              (condoparties.active == True)))
+                                        where=(condoparties.address == self.id)))
 
             ids = [ids for (ids,) in cursor.fetchall()]
             if len(ids):

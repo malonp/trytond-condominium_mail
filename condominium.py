@@ -32,13 +32,10 @@ __all__ = ['CondoParty',
 class CondoParty(metaclass=PoolMeta):
     __name__ = 'condo.party'
     mail = fields.Boolean('Mail', help="Check if this party should receive mail",
-        depends=['active'], states={
-            'readonly': ~Eval('active'),
-            })
+        )
     address = fields.Many2One('party.address', 'Address', help="Mail address for this party",
-        depends=['active', 'mail', 'party'], domain=[('party', '=', Eval('party'))],
+        depends=['mail', 'party'], domain=[('party', '=', Eval('party'))],
         ondelete='SET NULL', states={
-            'readonly': ~Eval('active'),
             'invisible': Not(Bool(Eval('mail')))
             })
 
@@ -54,7 +51,7 @@ class CondoParty(metaclass=PoolMeta):
 
     def address_when_mail(self):
         #Constraint to set address if mail is true
-        if self.active and self.mail:
+        if self.mail:
             if not self.address:
                 self.raise_user_error(
                     "Set address or uncheck mail")
@@ -105,7 +102,6 @@ class CheckUnitMailAddress(Wizard):
         condoparties = CondoParty.search([
                 ('unit', 'in', [ x['id'] for x in units ]),
                 ('mail', '=', True),
-                ('active', '=', True),
                 ], order=[('unit.company', 'ASC'), ('unit.name', 'ASC')])
 
         #All UNITS WITH PARTIES THAT HAVE MAIL defined (in the unit itself or other selected units)
