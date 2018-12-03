@@ -22,6 +22,7 @@
 from trytond.pool import Pool
 from trytond.report import Report
 
+import logging
 
 __all__ = ['AddressList']
 
@@ -56,14 +57,44 @@ class AddressList(Report):
                 ], order=[('unit.company', 'ASC'), ('unit.name', 'ASC')])
 
         report = []
+        crossreferences = {}
         for condoparty in condoparties:
             item = {
                 'party': condoparty.party,
                 'address': condoparty.address
                 }
-            #append only if distinct (party, address)
-            if not (item in report):
-                report.append(item)
+
+            #tuple (party, address) already in report: repeated item detected so next loop
+            if item in report:
+                continue
+
+            #condoparty.address.name exist and is not empty
+            if condoparty.address.name and condoparty.address.name.strip():
+                #condoparty.address.name already used as another condoparty.party.full_name
+                if (condoparty.address.name in crossreferences) and \
+                    (crossreferences[condoparty.address.name]==condoparty.party.full_name):
+                        repeated_item = next(filter(lambda f:f['party'].full_name==condoparty.address.name and f['address'].name==condoparty.party.full_name, report),None)
+                        if repeated_item:
+                            r =  repeated_item['address']
+                            #if all fields of address are same the repeated item is detected
+                            if r.street==condoparty.address.street and \
+                                r.zip==condoparty.address.zip and \
+                                r.city==condoparty.address.city and \
+                                r.subdivision==condoparty.address.subdivision and \
+                                r.country==condoparty.address.country:
+                                logging.warning('Repeated record: {0} {1} {2} {3} {4} {5} {6}',
+                                                                                  condoparty.party.full_name,
+                                                                                  condoparty.address.name,
+                                                                                  r.street,
+                                                                                  r.zip,
+                                                                                  r.city,
+                                                                                  r.subdivision.name,
+                                                                                  r.country.name)
+                                continue
+                else:
+                    crossreferences[condoparty.party.full_name]=condoparty.address.name.strip()
+
+            report.append(item)
 
         report_context['records'] = report
 
