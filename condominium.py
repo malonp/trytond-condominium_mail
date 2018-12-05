@@ -31,33 +31,10 @@ __all__ = ['CondoParty',
 
 class CondoParty(metaclass=PoolMeta):
     __name__ = 'condo.party'
-    mail = fields.Boolean('Mail', help="Check if this party should receive mail",
+    address = fields.Many2One('party.address', 'Mailing Address', help="Mailing address for this party",
+        depends=['party'], domain=[('party', '=', Eval('party'))],
+        ondelete='SET NULL',
         )
-    address = fields.Many2One('party.address', 'Address', help="Mail address for this party",
-        depends=['mail', 'party'], domain=[('party', '=', Eval('party'))],
-        ondelete='SET NULL', states={
-            'invisible': Not(Bool(Eval('mail')))
-            })
-
-    @staticmethod
-    def default_mail():
-        return True
-
-    @classmethod
-    def validate(cls, condoparties):
-        super(CondoParty, cls).validate(condoparties)
-        for condoparty in condoparties:
-            condoparty.address_when_mail()
-
-    def address_when_mail(self):
-        #Constraint to set address if mail is true
-        if self.mail:
-            if not self.address:
-                self.raise_user_error(
-                    "Set address or uncheck mail")
-            elif not self.address.active:
-                self.raise_user_error(
-                    "Set an active address or uncheck mail")
 
 
 class CheckAddressingList(ModelView):
@@ -101,7 +78,7 @@ class CheckUnitMailAddress(Wizard):
         #All ACTIVE CONDOPARTIES of the unit refered above that HAVE MAIL DEFINED
         condoparties = CondoParty.search([
                 ('unit', 'in', [ x['id'] for x in units ]),
-                ('mail', '=', True),
+                ('address', '!=', None),
                 ], order=[('unit.company', 'ASC'), ('unit.name', 'ASC')])
 
         #All UNITS WITH PARTIES THAT HAVE MAIL defined (in the unit itself or other selected units)

@@ -53,7 +53,7 @@ class AddressList(Report):
 
         condoparties = CondoParty.search([
                 ('unit', 'in', [ x['id'] for x in units ]),
-                ('mail', '=', True),
+                ('address', '!=', None),
                 ], order=[('unit.company', 'ASC'), ('unit.name', 'ASC')])
 
         report = []

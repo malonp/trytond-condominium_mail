@@ -81,7 +81,7 @@ class Address(metaclass=PoolMeta):
             ids = [ids for (ids,) in cursor.fetchall()]
             if len(ids):
                 self.raise_user_warning('warn_deactive_party_address.%d' % self.id,
-                    'This address will be deactivate as mail address in %d unit(s)/apartment(s)!', len(ids))
+                    'This address will be deactivate as mailing address in %d unit(s)/apartment(s)!', len(ids))
 
                 for sub_ids in grouped_slice(ids):
                     red_sql = reduce_ids(condoparties.id, sub_ids)
