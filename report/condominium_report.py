@@ -22,7 +22,6 @@
 from trytond.pool import Pool
 from trytond.report import Report
 
-import logging
 
 __all__ = ['AddressList']
 
@@ -82,14 +81,6 @@ class AddressList(Report):
                                 r.city==condoparty.address.city and \
                                 r.subdivision==condoparty.address.subdivision and \
                                 r.country==condoparty.address.country:
-                                logging.warning('Repeated record: {0} {1} {2} {3} {4} {5} {6}',
-                                                                                  condoparty.party.full_name,
-                                                                                  condoparty.address.name,
-                                                                                  r.street,
-                                                                                  r.zip,
-                                                                                  r.city,
-                                                                                  r.subdivision.name,
-                                                                                  r.country.name)
                                 continue
                 else:
                     crossreferences[condoparty.party.full_name]=condoparty.address.name.strip()
