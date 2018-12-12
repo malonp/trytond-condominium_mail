@@ -7,14 +7,14 @@ this repository contains the full copyright notices and license terms. -->
             <field name="name">Addressing small envelopes</field>
             <field name="model"></field>
             <field name="report_name">condo.address_list</field>
-            <field name="report">condominium_mail/report/letter_b6(iso).odt</field>
+            <field name="report">condominium_mail/report/letter_b6(iso).fodt</field>
         </record>
 
         <record model="ir.action.report" id="condoparty_addressing_big_envelopes">
             <field name="name">Addressing big envelopes</field>
             <field name="model"></field>
             <field name="report_name">condo.address_list</field>
-            <field name="report">condominium_mail/report/letter_envelope_c5.odt</field>
+            <field name="report">condominium_mail/report/letter_envelope_c5.fodt</field>
         </record>
 
 
