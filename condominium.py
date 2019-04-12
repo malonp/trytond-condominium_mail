@@ -21,7 +21,7 @@
 
 from trytond.model import ModelView, fields
 from trytond.pool import PoolMeta, Pool
-from trytond.pyson import Eval, Not, Bool
+from trytond.pyson import Eval, If, Not, Bool
 from trytond.transaction import Transaction
 from trytond.wizard import Wizard, StateTransition, StateView, Button
 
@@ -32,7 +32,7 @@ __all__ = ['CondoParty',
 class CondoParty(metaclass=PoolMeta):
     __name__ = 'condo.party'
     address = fields.Many2One('party.address', 'Mailing Address', help="Mailing address for this party",
-        depends=['party'], domain=[('party', '=', Eval('party'))],
+        depends=['party'], domain=[If(Bool(Eval('party')), [('party', '=', Eval('party')),], []),],
         ondelete='SET NULL',
         )
 
