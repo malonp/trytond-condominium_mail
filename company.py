@@ -29,23 +29,26 @@ __all__ = ['Company']
 
 class Company(metaclass=PoolMeta):
     __name__ = 'company.company'
-    mailto = fields.Function(fields.Char('Mailto'),
-        getter='get_mailto')
+    mailto = fields.Function(fields.Char('Mailto'), getter='get_mailto')
 
     @classmethod
     def get_mailto(cls, companies, name):
         res = {}
         for company_ in companies:
             res[company_.id] = ''
-            childs = cls.search([
-                    ('is_Condominium', '=', True),
-                    ('parent', 'child_of', [company_.id]),
-                    ])
+            childs = cls.search([('is_Condominium', '=', True), ('parent', 'child_of', [company_.id])])
             emails = []
             for child in childs:
-                emails.extend([e.value for u in child.condo_units
-                                                for p in u.parties if p.party.email
-                                                for e in p.party.contact_mechanisms if e.type=='email'])
+                emails.extend(
+                    [
+                        e.value
+                        for u in child.condo_units
+                        for p in u.parties
+                        if p.party.email
+                        for e in p.party.contact_mechanisms
+                        if e.type == 'email'
+                    ]
+                )
             if emails:
                 res[company_.id] = '?bcc=' + ';'.join(set(emails))
 

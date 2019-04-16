@@ -33,57 +33,60 @@ class AddressList(Report):
     def get_context(cls, records, data):
         report_context = super(AddressList, cls).get_context(records, data)
 
-        #records:
-        #[Pool().get('company.company')(4), Pool().get('company.company')(6)]
-        #data:
-        #{u'model': u'company.company', u'action_id': 69, u'ids': [4, 6], u'id': 4}
+        # records:
+        # [Pool().get('company.company')(4), Pool().get('company.company')(6)]
+        # data:
+        # {u'model': u'company.company', u'action_id': 69, u'ids': [4, 6], u'id': 4}
 
         pool = Pool()
         CondoParty = pool.get('condo.party')
         CondoUnit = pool.get('condo.unit')
 
-        units = CondoUnit.search_read([
-                    'OR', [
-                            ('company', 'in', data['ids']),
-                        ],[
-                            ('company.parent', 'child_of', data['ids']),
-                        ],
-                ], fields_names=['id'])
+        units = CondoUnit.search_read(
+            ['OR', [('company', 'in', data['ids'])], [('company.parent', 'child_of', data['ids'])]], fields_names=['id']
+        )
 
-        condoparties = CondoParty.search([
-                ('unit', 'in', [ x['id'] for x in units ]),
-                ('address', '!=', None),
-                ], order=[('unit.company', 'ASC'), ('unit.name', 'ASC')])
+        condoparties = CondoParty.search(
+            [('unit', 'in', [x['id'] for x in units]), ('address', '!=', None)],
+            order=[('unit.company', 'ASC'), ('unit.name', 'ASC')],
+        )
 
         report = []
         crossreferences = {}
         for condoparty in condoparties:
-            item = {
-                'party': condoparty.party,
-                'address': condoparty.address
-                }
+            item = {'party': condoparty.party, 'address': condoparty.address}
 
-            #tuple (party, address) already in report: repeated item detected so next loop
+            # tuple (party, address) already in report: repeated item detected so next loop
             if item in report:
                 continue
 
-            #condoparty.address.name exist and is not empty
+            # condoparty.address.name exist and is not empty
             if condoparty.address.name and condoparty.address.name.strip():
-                #condoparty.address.name already used as another condoparty.party.full_name
-                if (condoparty.address.name in crossreferences) and \
-                    (crossreferences[condoparty.address.name]==condoparty.party.full_name):
-                        repeated_item = next(filter(lambda f:f['party'].full_name==condoparty.address.name and f['address'].name==condoparty.party.full_name, report),None)
-                        if repeated_item:
-                            r =  repeated_item['address']
-                            #if all fields of address are same the repeated item is detected
-                            if r.street==condoparty.address.street and \
-                                r.zip==condoparty.address.zip and \
-                                r.city==condoparty.address.city and \
-                                r.subdivision==condoparty.address.subdivision and \
-                                r.country==condoparty.address.country:
-                                continue
+                # condoparty.address.name already used as another condoparty.party.full_name
+                if (condoparty.address.name in crossreferences) and (
+                    crossreferences[condoparty.address.name] == condoparty.party.full_name
+                ):
+                    repeated_item = next(
+                        filter(
+                            lambda f: f['party'].full_name == condoparty.address.name
+                            and f['address'].name == condoparty.party.full_name,
+                            report,
+                        ),
+                        None,
+                    )
+                    if repeated_item:
+                        r = repeated_item['address']
+                        # if all fields of address are same the repeated item is detected
+                        if (
+                            r.street == condoparty.address.street
+                            and r.zip == condoparty.address.zip
+                            and r.city == condoparty.address.city
+                            and r.subdivision == condoparty.address.subdivision
+                            and r.country == condoparty.address.country
+                        ):
+                            continue
                 else:
-                    crossreferences[condoparty.party.full_name]=condoparty.address.name.strip()
+                    crossreferences[condoparty.party.full_name] = condoparty.address.name.strip()
 
             report.append(item)
 
