@@ -87,12 +87,12 @@ class CheckUnitMailAddress(Wizard):
 
         # All UNITS WITH PARTIES THAT HAVE MAIL defined (in the unit itself or other selected units)
         units_party_with_mail = CondoUnit.search_read(
-            [('id', 'in', [x['id'] for x in units]), ('parties.party', 'in', [x.party for x in condoparties])],
+            [('id', 'in', [x['id'] for x in units]), ('condoparties.party', 'in', [x.party for x in condoparties])],
             fields_names=['id'],
         )
 
         units_condoparty_with_mail = CondoUnit.search_read(
-            [('id', 'in', [x['id'] for x in units]), ('parties', 'in', [x.id for x in condoparties])],
+            [('id', 'in', [x['id'] for x in units]), ('condoparties', 'in', [x.id for x in condoparties])],
             fields_names=['id'],
         )
 

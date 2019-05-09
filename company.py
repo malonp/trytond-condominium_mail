@@ -36,14 +36,14 @@ class Company(metaclass=PoolMeta):
         res = {}
         for company_ in companies:
             res[company_.id] = ''
-            childs = cls.search([('is_Condominium', '=', True), ('parent', 'child_of', [company_.id])])
+            childs = cls.search([('is_condo', '=', True), ('parent', 'child_of', [company_.id])])
             emails = []
             for child in childs:
                 emails.extend(
                     [
                         e.value
-                        for u in child.condo_units
-                        for p in u.parties
+                        for u in child.units
+                        for p in u.condoparties
                         if p.party.email
                         for e in p.party.contact_mechanisms
                         if e.type == 'email'
