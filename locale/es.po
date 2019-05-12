@@ -2,20 +2,12 @@
 msgid ""
 msgstr "Content-Type: text/plain; charset=utf-8\n"
 
-msgctxt "field:condo.party,mail:"
-msgid "Mail"
-msgstr "Correspondencia"
-
 msgctxt "field:condo.party,address:"
-msgid "Address"
-msgstr "Dirección"
-
-msgctxt "help:condo.party,mail:"
-msgid "Check if this party should receive mail"
-msgstr "Seleccionar si este tercero debe recibir correspondencia"
+msgid "Mailing Address"
+msgstr "Dirección Postal"
 
 msgctxt "help:condo.party,address:"
-msgid "Mail address for this party"
+msgid "Mailing address for this party"
 msgstr "Dirección de envio de la correspondencia para este tercero"
 
 
@@ -30,15 +22,15 @@ msgstr "Inmuebles a comprobar"
 
 msgctxt "view:condo.check_units_addressing.result:"
 msgid "Check Units/Apartments mail address"
-msgstr "Comprobar dirección de correo de inmuebles"
+msgstr "Comprobar Direcciones Postales de Inmuebles"
 
 
 msgctxt "model:ir.action,name:wizard_check_units_addressing"
 msgid "Check Addressing List"
-msgstr "Comprobar direcciones correo"
+msgstr "Comprobar Direcciones Postales"
 
 
-msgctxt "wizard_button:party.condo.check_units_addressing,result,end:"
+msgctxt "wizard_button:condo.check_units_addressing,result,end:"
 msgid "OK"
 msgstr "Aceptar"
 
@@ -53,13 +45,5 @@ msgstr "Correspondencia sobres grandes"
 
 
 msgctxt "error:party.address:"
-msgid "This address will be deactivate as mail address in %d unit(s)/apartment(s)!"
+msgid "This address will be deactivate as mailing address in %d unit(s)/apartment(s)!"
 msgstr "Esta dirección será desactivada como destino de correspondencia en %d inmueble(s)!"
-
-msgctxt "error:condo.party:"
-msgid "Set address or uncheck mail"
-msgstr "Introduzca dirección de correspondencia o desactive la casilla"
-
-msgctxt "error:condo.party:"
-msgid "Set an active address or uncheck mail"
-msgstr "Introduzca una dirección de correspondencia activa o desactive la casilla"

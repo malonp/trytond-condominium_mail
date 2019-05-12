@@ -28,15 +28,6 @@ from .report import *
 
 
 def register():
-    Pool.register(
-        Address,
-        CheckAddressingList,
-        Company,
-        CondoParty,
-        module='condominium_mail', type_='model')
-    Pool.register(
-        AddressList,
-        module='condominium_mail', type_='report')
-    Pool.register(
-        CheckUnitMailAddress,
-        module='condominium_mail', type_='wizard')
+    Pool.register(Address, CheckAddressingList, Company, CondoParty, module='condominium_mail', type_='model')
+    Pool.register(AddressList, module='condominium_mail', type_='report')
+    Pool.register(CheckUnitMailAddress, module='condominium_mail', type_='wizard')

@@ -41,13 +41,7 @@ class Address(metaclass=PoolMeta):
             country = self.country.code
         else:
             country = None
-        return ', '.join(
-            [_f for _f in [
-                    self.name,
-                    street,
-                    self.zip,
-                    self.city,
-                    country] if _f])
+        return ', '.join([_f for _f in [self.name, street, self.zip, self.city, country] if _f])
 
     @classmethod
     def search_rec_name(cls, name, clause):
@@ -55,13 +49,14 @@ class Address(metaclass=PoolMeta):
             bool_op = 'AND'
         else:
             bool_op = 'OR'
-        return [bool_op,
+        return [
+            bool_op,
             ('name',) + tuple(clause[1:]),
             ('street',) + tuple(clause[1:]),
             ('zip',) + tuple(clause[1:]),
             ('city',) + tuple(clause[1:]),
             ('country',) + tuple(clause[1:]),
-            ]
+        ]
 
     @classmethod
     def validate(cls, addresses):
@@ -70,23 +65,26 @@ class Address(metaclass=PoolMeta):
             address.validate_active()
 
     def validate_active(self):
-        #Deactivate address as mail address of unit's party
+        # Deactivate address as mail address of unit's party
         if (self.id > 0) and not self.active:
             condoparties = Pool().get('condo.party').__table__()
             cursor = Transaction().connection.cursor()
 
-            cursor.execute(*condoparties.select(condoparties.id,
-                                        where=(condoparties.address == self.id)))
+            cursor.execute(*condoparties.select(condoparties.id, where=(condoparties.address == self.id)))
 
             ids = [ids for (ids,) in cursor.fetchall()]
             if len(ids):
-                self.raise_user_warning('warn_deactive_party_address.%d' % self.id,
-                    'This address will be deactivate as mail address in %d unit(s)/apartment(s)!', len(ids))
+                self.raise_user_warning(
+                    'warn_deactive_party_address.%d' % self.id,
+                    'This address will be deactivate as mailing address in %d unit(s)/apartment(s)!',
+                    len(ids),
+                )
 
                 for sub_ids in grouped_slice(ids):
                     red_sql = reduce_ids(condoparties.id, sub_ids)
                     # Use SQL to prevent double validate loop
-                    cursor.execute(*condoparties.update(
-                            columns=[condoparties.mail, condoparties.address],
-                            values=[False, Null],
-                            where=red_sql))
+                    cursor.execute(
+                        *condoparties.update(
+                            columns=[condoparties.mail, condoparties.address], values=[False, Null], where=red_sql
+                        )
+                    )
