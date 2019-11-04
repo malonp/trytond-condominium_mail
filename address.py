@@ -85,6 +85,6 @@ class Address(metaclass=PoolMeta):
                     # Use SQL to prevent double validate loop
                     cursor.execute(
                         *condoparties.update(
-                            columns=[condoparties.mail, condoparties.address], values=[False, Null], where=red_sql
+                            columns=[condoparties.address], values=[Null], where=red_sql
                         )
                     )
