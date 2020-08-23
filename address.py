@@ -83,8 +83,4 @@ class Address(metaclass=PoolMeta):
                 for sub_ids in grouped_slice(ids):
                     red_sql = reduce_ids(condoparties.id, sub_ids)
                     # Use SQL to prevent double validate loop
-                    cursor.execute(
-                        *condoparties.update(
-                            columns=[condoparties.address], values=[Null], where=red_sql
-                        )
-                    )
+                    cursor.execute(*condoparties.update(columns=[condoparties.address], values=[Null], where=red_sql))
