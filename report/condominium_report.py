@@ -22,7 +22,6 @@
 from trytond.pool import Pool
 from trytond.report import Report
 
-
 __all__ = ['AddressList']
 
 

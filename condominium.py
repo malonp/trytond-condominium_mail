@@ -20,11 +20,10 @@
 ##############################################################################
 
 from trytond.model import ModelView, fields
-from trytond.pool import PoolMeta, Pool
-from trytond.pyson import Eval, If, Not, Bool
+from trytond.pool import Pool, PoolMeta
+from trytond.pyson import Bool, Eval, If, Not
 from trytond.transaction import Transaction
-from trytond.wizard import Wizard, StateTransition, StateView, Button
-
+from trytond.wizard import Button, StateTransition, StateView, Wizard
 
 __all__ = ['CondoParty', 'CheckAddressingList', 'CheckUnitMailAddress']
 
