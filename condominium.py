@@ -21,7 +21,7 @@
 
 from trytond.model import ModelView, fields
 from trytond.pool import Pool, PoolMeta
-from trytond.pyson import Bool, Eval, If, Not
+from trytond.pyson import Bool, Eval, If
 from trytond.transaction import Transaction
 from trytond.wizard import Button, StateTransition, StateView, Wizard
 
@@ -64,9 +64,6 @@ class CheckUnitMailAddress(Wizard):
         pool = Pool()
         CondoParty = pool.get('condo.party')
         CondoUnit = pool.get('condo.unit')
-
-        units_succeed = []
-        units_failed = []
 
         # All UNITS that BELONGS TO SELETED CONDOMINIUM and/or his childrens
         units = CondoUnit.search_read(
